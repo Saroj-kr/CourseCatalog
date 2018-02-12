@@ -10,7 +10,7 @@
   "scripts": {
     "ng": "ng",
     "start": "nodemon server.js",
-    "postinstall": "ng build"
+    "heroku-postbuild": "ng build"
   },
   "private": true,
   "dependencies": {
