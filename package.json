@@ -11,7 +11,7 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "postinstall": "ng build --watch",
+    "postinstall": "ng build --watch"
   },
   "private": true,
   "dependencies": {
