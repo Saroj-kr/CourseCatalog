@@ -1,1 +1,1 @@
-web: node build --watch
+web: npm start
