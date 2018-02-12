@@ -1,1 +1,1 @@
-web: ng build --watch
+web: node build --watch
