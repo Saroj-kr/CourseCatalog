@@ -9,9 +9,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "nodemon server.js",
-    "heroku-postbuild": "npm install",
-    "postinstall": "ng build -w"
+    "start": "node server.js",
+    "build": "ng build",
+    "postinstall": "ng build --watch",
   },
   "private": true,
   "dependencies": {
