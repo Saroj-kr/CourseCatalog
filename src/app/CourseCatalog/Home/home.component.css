@@ -1,0 +1,73 @@
+@media screen and (max-width: 800px),
+(max-width: 600px),
+(max-width:700px),
+(max-width:500px) {
+    #departmentSelect {
+        display: none;
+    }
+    
+    #srchHomeInput {
+        width:70%;
+    }
+
+    #srchHomeBtn {
+        display: none !important;
+    }
+}
+
+/* .card-deck {
+    flex-flow: row;
+} */
+
+::-webkit-scrollbar{width:2px;height:2px;}
+::-webkit-scrollbar-button{width:2px;height:2px;}
+
+@media screen and (min-width: 900px) {
+
+    #departmentSelect {
+        max-width: -webkit-fit-content;
+        max-width: -moz-fit-content;
+        min-width: 100px;
+    }
+
+    #srchHomeInput {
+        width:65%;
+        background: transparent;
+        color:grey;
+    }
+
+}
+
+.jumbotron {
+    box-shadow: none;
+}
+
+.carousel-item {
+    height: 70vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.card {
+    border-radius: 0;
+    box-shadow: 3px 3px 10px #aaaaaa;
+    max-width:220px;
+    min-width: 200px;
+    margin-top: 15px;
+}
+
+.card .card-img-top {
+    height:200px;
+    overflow:hidden;
+}
+
+.card-block  h4,.card-block  p {
+    white-space: nowrap;
+    width: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

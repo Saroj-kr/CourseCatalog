@@ -1,0 +1,10 @@
+﻿{
+    "connectionString": "mongodb://localhost:27017/CourseCatalog",
+    "apiUrl": "http://localhost:4000",
+    "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
+    "twitter": {
+      "consumerKey": "hXRApS25uuGBz54tNohgOViU5",
+      "consumerSecret": "oU635r4WdZvWVy2GCRY24lk5f3PCI5roWA53qjlthvbs01DmjW",
+      "callbackURL": "http://127.0.0.1:3000/auth/twitter/callback"
+    }
+}

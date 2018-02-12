@@ -1,0 +1,103 @@
+<div class="row" id="usrContent">
+    <div id="usrQuickView" class="card-deck mx-auto">
+        <div class="card mx-4" >
+            <div class="card-body px-1 pt-0" [ngClass]="{'text-success':registeredCourseCount!=0}">
+                <p class="mb-0"><span class="h1 display-2">{{registeredCourseCount}}</span></p><span class="blockquote-footer text-dark font-weight-bold" >Registered Courses</span>
+            </div>
+        </div>
+        <div class="card mx-4">
+            <div class="card-body px-1 pt-0" [ngClass]="{'text-success':CoursesCompleted==registeredCourseCount, 'text-danger':CoursesCompleted==0, 'text-warning':CoursesCompleted!=0 && CoursesCompleted<registeredCourseCount }">
+                <p class="mb-0"><span class="h1 display-2">{{CoursesCompleted}}</span>out of {{registeredCourseCount}}</p><span class="blockquote-footer text-dark font-weight-bold">Course Completed</span>
+            </div>
+        </div>
+        <div class="card mx-4" [ngClass]="{'text-success':CreditEarned==CreditTotal, 'text-danger':CreditEarned==0, 'text-warning':CreditEarned!=0 && CoursesCompleted<CreditTotal }">
+            <div class="card-body px-1 pt-0">
+                <p class="mb-0"><span class="h1 display-2">{{CreditEarned}}</span>out of {{CreditTotal}}</p><span class="blockquote-footer text-dark font-weight-bold">Credit Earned</span>
+            </div>
+        </div>
+        <div class="card mx-4">
+            <div class="card-body px-1 pt-0 text-info">
+                <p class="mb-0"><span class="h1 display-2">0</span></p><span class="blockquote-footer text-dark font-weight-bold">Notification</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isUserAdmin == true" class="row mt-3">
+    <div class="col">
+        <div class="card w-100">
+            <div class="card-header py-2 row mx-0 bg-transparent" >
+                <div class="d-flex w-100">
+                    <div class="p2 my-auto">
+                        <h4 class="mb-0"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;Registeration Trend</h4>
+                    </div>
+                    <div class="p2 my-auto ml-auto">
+                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;
+                        <select class="custom-select" (change)="onChangeRTPeriod($event.target.value)" style="max-width: max-content;">
+                            <option disabled>Time Period</option>
+                            <option selected value="Day">Current Month</option>
+                            <option value="Month">Current Year</option>
+                            <option value="Year">Last 10 year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body container pt-3">
+                <div class="row" style="height: 200px;">
+                    <canvas *ngIf='RegTrendGrphData.length == 2' baseChart
+                        [datasets]="RegTrendGrphData"
+                        [labels]="RegTrendGraphLabel"
+                        [options]="RegTrendGraphOption"
+                        [chartType]="RegTrendGraphType" >
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="card-deck w-100">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header py-2 row mx-0 bg-transparent" >
+                    <!-- <div class="row"> -->
+                        <h4 class="mb-0 my-auto"><i class="fas fa-chart-pie"></i>&nbsp;&nbsp;Top Courses</h4>
+                        <select (change)="onChangeTCChartType($event.target.value)" class="custom-select ml-auto" style="max-width: max-content;">
+                            <option selected disabled value>Chart Type</option>
+                            <option value="polarArea">Polar Area</option>
+                            <option value="pie">Pie</option>
+                            <option value="doughnut">Doughnut</option>
+                        </select>
+                        <select (change)="onChangeTCDepartment($event.target.value)" class="custom-select ml-auto" style="max-width: max-content;">
+                                <option selected value="Overall">Overall</option>
+                                <option *ngFor='let department of departments' value="{{department.title}}">{{department.title}}</option>
+                            </select>
+                    <!-- </div> -->
+                </div>
+                <div class="card-body">
+                    <canvas *ngIf='TCChartLabels.length > 0' baseChart
+                        [data]="TCChartData"    
+                        [labels]="TCChartLabels"
+                        [legend]="TCChartLegend"
+                        [chartType]="TCChartType"
+                        [options]="TCChartOption"></canvas>
+                    <p *ngIf="TCChartReady && TCChartData.length == 0">No Data to displayed</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 pr-0 mr-0">
+            <div class="card mr-0 h-100">
+                <img src="../../assets/images/profileBanner.gif" alt="card-img-top" style="height: 150px; ">
+                <div class="card-body text-center">
+                    <img class="mx-auto" src="{{userDetail.imageURL}}" alt="card-img-top" style="max-height: 150px; min-height: 150px; min-width:150px; border-radius: 100%; border: 1px solid; margin-top: -30%;">
+                    <p class="h5">{{userDetail.name}}</p>
+                    <p class="h5 text-muted">Email : {{userDetail.email}}</p>
+                    <p class="h5 text-muted">Joined on : {{userDetail.dob}}</p>
+                    <p class="h5 text-muted">Mobile : {{userDetail.mobile}}</p>
+                </div>
+                <div class="card-footer p-0">
+                    <a href="/user/profile" class="btn btn-dark w-100 m-auto py-2">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

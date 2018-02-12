@@ -1,0 +1,12 @@
+.courseCard {
+    max-width: 203px;
+    min-width: 203px;
+    border-radius: 0px;
+    border: 1px solid rgb(100, 100, 100);
+    margin-bottom: 20px;
+}
+
+.courseCard .card-img-top {
+    width: inherit;
+    height: 200px;
+}

@@ -1,0 +1,107 @@
+<div class="card bg-transparent" style="box-shadow: none;">
+    <div class="card-body">
+        <form name='updateUser' (ngSubmit)="uf.form.valid && onUpdateUser(uf)" #uf="ngForm" novalidate>
+            <div class="px-3 row">
+                <h2 class="mb-0 my-auto"><i class="fas fa-id-badge"></i>&nbsp;&nbsp;About</h2>
+                <div class="ml-auto">
+                    <button *ngIf='!EditEnabled' (click)="toggleUserUpdateForm()" class="btn btn-outline-default waves-effect btn-sm m-0"><i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;&nbsp;Edit</button>
+                    <button type="submit" *ngIf='EditEnabled' (disabled)='uf.form.valid' class="btn btn-outline-info waves-effect btn-sm m-0"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;Save</button>
+                    <button *ngIf='EditEnabled' (click)="toggleUserUpdateForm()" class="btn btn-outline-danger waves-effect btn-sm m-0"><i class="fa fa-window-close" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Cancel</button>
+                </div>
+            </div>
+            <hr class="mt-2 mb-3" />                            
+            <fieldset id="usrFrmFieldset" class="disabled" disabled>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="row pr-3 ">
+                            <img src="{{userDetail.imageURL}}" alt="{{userDetail.name}}" style="height:230px;" class="img-thumbnail col w-100">
+                        </div>
+                        <div class="row pr-3 mt-2">
+                            <div class="custom-file">
+                                <input (change)="uploadImage()" accept="image/*" name="objImage" type="file" class="custom-file-input" id="objImage">
+                                <label class="custom-file-label" for="customFile">{{uploadedFile}}</label>
+                            </div>
+                        </div>
+                        <div class="row mt-3 pr-3">
+                            <div class="card w-100">
+                                <div class="card-header">
+                                    Basic Information
+                                </div>
+                                <div class="card-body">
+                                    <input class="form-control" type="text" name="frmName" id="frmName" placeholder="Name" class="form-control" value="{{userDetail.name}}" [(ngModel)]="userDetail.name" minlength="3" maxlength="50" pattern="[a-zA-Z ]+" #usrName="ngModel" >
+                                    <p *ngIf="!usrName.valid && (usrName.dirty || usrName.touched)" class=" small w-100 text-danger">
+                                        <span *ngIf="usrName.errors.required">Name cannot be empty</span>
+                                        <span *ngIf="usrName.errors.minlength">Name cannot be less than 3 characters</span>
+                                        <span *ngIf="usrName.errors.maxlength">Name is too large, try to place in abbreviation for same</span>
+                                        <span *ngIf="usrName.errors.pattern">Name can contain only characters</span>
+                                    </p>
+                                    <select name="frmGender" class="custom-select" (change)="onGenderChange($event.target.value)" style="height: 2.5rem" [(ngModel)]="userDetail.gender" #usrGender="ngModel">
+                                        <option disabled value selected>Gender</option>
+                                        <option value="1">Female</option> 
+                                        <option value="0">Male</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="pb-0">Contact Information</h4>
+                                <hr  class="mt-2 mb-3" />
+                                <div class="row">
+                                    <div class="col-2">
+                                        <label>Address</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <textarea class="form-control" name="frmAddress" placeholder="Address" cols="3" [(ngModel)]="userDetail.address">{{userDetail.address}}</textarea>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label>Mobile</label>
+                                        </div>
+                                        <div class="col-10">
+                                            <input class="form-control" type="text" name="frmMobile" placeholder="Mobile number (XXXXXXXXXX)" pattern="^[0-9]{10}$" value="{{userDetail.mobile}}" [(ngModel)]="userDetail.mobile" #usrMobile="ngModel" >
+                                            <p *ngIf="!usrMobile.valid && (usrMobile.dirty || usrMobile.touched)" class=" small w-100 text-danger">
+                                                <span *ngIf="usrMobile.errors.pattern">Enter your 10 digit mobile number in pattern XXXXXXXXXX</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h4 class="pb-0">Account Information</h4>
+                                <hr  class="mt-2 mb-3" />
+                                <div class="row">
+                                    <div class="col-2">
+                                        <label class="my-auto">Email</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" placeholder="Email" value="{{userDetail.email}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <label class="my-auto">Password</label>
+                                    </div>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="frmPassword" placeholder="Password" value="{{userDetail.password}}" pattern="^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$" [(ngModel)]="userDetail.password" #usrPassword="ngModel" required>
+                                        <p *ngIf="!usrPassword.valid && (usrPassword.dirty || usrPassword.touched)" class=" small w-100 text-danger">
+                                            <span *ngIf="usrPassword.errors.required">Password cannot be empty</span>
+                                            <span *ngIf="usrPassword.errors.pattern"> Password Must Contain more than 6 character, atleast 1-char and 1-number</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

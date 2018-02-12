@@ -1,0 +1,147 @@
+@media screen and (max-width:2000px) {
+    #detailBanner {
+        padding:10px;
+    }
+
+    #bannerDisplayCard {
+        max-width: 200px;
+        min-width: 180px;
+        box-shadow: 0px 0px 0px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #detailBanner {
+        padding:2px;
+    }
+
+    #detailNav {
+        display: none;
+    }
+
+    #detailContent{
+        width: 100%;
+    }
+}
+
+#detailBanner {
+    width:100%;
+}
+
+#DetailHeaderImg {
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 200px;
+    max-height: 200px;
+}
+
+#AllCourses .card {
+    max-width: 203px;
+    min-width: 203px;
+    border-radius: 0px;
+    border: 1px solid rgb(100, 100, 100);
+    margin-bottom: 20px;
+}
+
+.pageWideCard {
+    min-width: 100%;
+}
+
+#featuredCourses .card img, #AllCourses .card img{
+    min-width: 205px;
+    max-width: 205px;
+    min-height: 200px;
+    max-height: 200px;
+}
+
+.card {
+    border-radius: 0px;
+}
+
+#featuredCourses .card, #AllCourses .card {
+    min-width: 207px;
+    max-width: 205px;
+    margin-right: 15px;
+    margin-top: 20px;
+    border: 1px solid rgb(70, 68, 68);
+}
+
+::-webkit-scrollbar{width:2px;height:2px;}
+::-webkit-scrollbar-button{width:2px;height:2px;}
+
+.card-block  h4,.card-block  p {
+    white-space: nowrap;
+    width: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 5px;
+}
+
+#DetailHeader {
+    background-image: url('../../../assets/images/slider_img3.jpg');
+    background-repeat: repeat;
+    color: whitesmoke;
+    /* background: -moz-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%); /* ff3.6+ */
+    /* background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(255,0,0,1)), color-stop(100%, rgba(0,0,0,1))); safari4+,chrome */
+    /* background: -webkit-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%); safari5.1+,chrome10+ */
+    /* background: -o-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%); opera 11.10+ */
+    /* background: -ms-linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%); ie10+ */
+    /* background: linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%); w3c */
+    /* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#FF0000',GradientType=1 );    */ 
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color:rgb(255, 255, 255);
+        background-color: transparent;
+        border-bottom: 5px solid white;
+        /* -webkit-box-shadow: 0px -9px 7px -7px black inset;
+        -moz-box-shadow: 0px -9px 7px -7px black inset;
+        box-shadow: 0px -9px 7px -7px black inset; */
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+}
+
+.nav-pills .nav-link, .nav-pills .nav-link {
+    /* font-weight: bolder; */
+    /* transition: box-shadow 0.3s ease-out;
+    transition: -moz-box-shadow 0.3s ease-out;
+    transition: -webkit-box-shadow 0.3s ease-out; */
+    border-bottom: 5px solid rgba(255, 255, 255, 0);
+    transition: border-bottom-color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item {
+    box-shadow: none;
+    color: black !important;
+    background-color: transparent !important;
+    width: 170px;
+    transition: all 0.3s ease;
+    margin-top: 4px;
+    /* transition: margin-left 0.3s ease;
+    transition: margin-right 0.3s ease; */
+}
+
+.dropdown-menu .dropdown-item:hover {
+    color: black !important;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    width: 100%;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.dropdown-menu .dropdown-item.bg-success:hover {
+    color: white !important;
+    background-color: green !important;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-menu .dropdown-item.bg-danger:hover {
+    color: white !important;
+    background-color: red !important;
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-menu {
+    padding: 0px;
+    background-color: #ffffff70 !important;
+}

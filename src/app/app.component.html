@@ -1,0 +1,191 @@
+<main role="main">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar special-color">
+        <a class="navbar-brand my-auto h5" href="/">
+            <img src="assets/images/course-icon.png" height="40" class="d-inline-block align-center" alt="">
+            CapstoneProject
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto white-text">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{active:isHomeURL}" href="/"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{active:isDepartmentURL}" href="/departments"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;&nbsp;Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{active:isCourseURL}" href="/courses"><i class="fa fa-copy" aria-hidden="true"></i>&nbsp;&nbsp;Courses</a>
+                </li>
+            </ul>
+                <a *ngIf="UserLoggedIn == false" class="btn nav-link btn-outline-info"  data-toggle="modal" data-target="#LoginModal"href="#"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Login / SignUp</a>
+                <!-- <div class="btn-group nav-link">
+                    <h5 class="dropdown-toggle text-white" data-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{CurrentUser}}
+                    </h5>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#" routerLink="user">My Page</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="onSignOut();">Sign Out</a>
+                    </div>
+                </div> -->
+                <!-- <div *ngIf="CurrentUser"  class="btn-group nav-link">
+                    <a class="btn bg-transparent"><i *ngIf="!isAdmin" class="far fa-user-circle"></i><i *ngIf="isAdmin" class="fas fa-user-circle"></i>&nbsp;&nbsp;{{CurrentUser}}</a>
+                    <button type="button" class="btn bg-transparent dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">User Options</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#"><i class="far fa-chart-bar"></i>&nbsp;&nbsp;Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Log Out</a>
+                    </div>
+                </div> -->
+            <div *ngIf="UserLoggedIn" class="btn-group">
+                <button type="button" class="btn special-color"><i *ngIf="!isAdmin" class="far fa-user-circle"></i><i *ngIf="isAdmin" class="fas fa-user-circle"></i>&nbsp;&nbsp;{{userDetail.name}}</button>
+                <button type="button" class="btn dropdown-toggle px-3 special-color" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="usrMenu">
+                    <span class="sr-only">User Options</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right special-color" aria-labelledby="usrMenu">
+                    <div class="dropdown-item container">
+                        <div class="row px-2">
+                            <div class="col-sm-4 px-0">
+                                <img src="{{userDetail.imageURL}}" style="min-height: 75px; max-height: 75px; min-width: 75px; max-width: 75px;">
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="mb-0">{{userDetail.name}}</p>
+                                <small class="">Joined: {{userDetail.dob}}</small>
+                                <a class="mb-0 p-0 d-block" href="javascript:void(0)" href="/user/profile">Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="dropdown-item mx-auto" href="javascript:void(0);" routerLink="user/dashboard"><i class="far fa-chart-bar"></i>&nbsp;&nbsp;Dashboard</a>
+                    <a class="dropdown-item mx-auto" href="javascript:void(0);" routerLink="user/history"><i class="fa fa-history"></i>&nbsp;&nbsp;History</a>
+                    <a *ngIf="isAdminOrNot() == true" class="dropdown-item mx-auto" href="javascript:void(0);" routerLink="user/adminMgmt"><i class="fa fa-users"></i>&nbsp;&nbsp;Admin Mgmt</a>
+                    <a class="dropdown-item mx-auto" href="javascript:void(0);" (click)="onSignOut();"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <strong>MDB</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7" aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link waves-effect waves-light" href="#">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" href="#">Profile</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline waves-effect waves-light">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    </form>
+                </div>
+            </div>
+        </nav> -->
+    <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="top: 18%; margin: 0 auto;">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <form (ngSubmit)="f.form.valid && onLogin(f)" #f="ngForm" name="frmLogin" class="w-100 pr-4" novalidate>
+                                        <legend>Login to Course Catalog</legend>
+                                        <p *ngIf="activity == 'login' && error == true" class="alert alert-danger">{{responseMsg}}</p>
+                                        <p *ngIf="activity == 'login' && error == false" class="alert alert-sucess">{{responseMsg}}</p>
+                                        <div class="md-form">
+                                            <input type="text" class="form-control" name="formLoginEmail" id="formLoginEmail" placeholder="*Username ( Email )" [(ngModel)]="model.username" #username="ngModel" required>
+                                            <p *ngIf="!username.valid && (username.dirty || username.touched)" class="w-100 alert alert-danger">Username required</p>
+                                        </div>
+                                        <div class="md-form">
+                                            <input type="password" class="form-control" name="formLoginPassword" id="formLoginPassword" placeholder="*Password" [(ngModel)]="model.password" #password="ngModel" required>
+                                            <p *ngIf="!password.valid && (password.dirty || password.touched)" class="w-100 alert alert-danger">Password required</p>
+                                        </div>
+                                        <div class="d-flex"><button  type="submit" class="btn btn-primary ml-auto">Sign in !</button></div>
+                                        <img *ngIf="loginloading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                    </form>
+                                </div>
+                                <!-- <hr />
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row">
+                                            <h5>Login with</h5>
+                                        </div>
+                                        <div *ngIf="signUpResponseMsg">{{loginResponseMsg}}</div>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-fb waves-effect waves-light">
+                                                <i class="fa fa-facebook"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tw waves-effect waves-light">
+                                                <i class="fa fa-twitter"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-gplus waves-effect waves-light">
+                                                <i class="fa fa-google-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="col-sm-6">
+                                <form #sf="ngForm" (ngSubmit)="sf.form.valid && onSignUp(sf)" name="frmSignUp" novalidate>
+                                    <legend>Sign up now</legend>
+                                    <p *ngIf="activity == 'register' && error == true" class="alert alert-danger">{{responseMsg}}</p>
+                                    <p *ngIf="activity == 'register' && error == false" class="alert alert-sucess">{{responseMsg}}</p>
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" id="formSignUpName" name="formSignUpName" placeholder="*Name" [(ngModel)]="user.name" #sName="ngModel" minlength="4" maxlength="20" required>
+                                        <p *ngIf="sName.invalid && (sName.dirty || sName.touched)" class="w-100 alert alert-danger">
+                                            <span *ngIf="sName.errors.required">Name is required</span>
+                                            <span *ngIf="sName.errors.minlength">Name is too short</span>
+                                            <span *ngIf="sName.errors.maxlength">Name is too long</span>
+                                        </p>
+                                    </div>
+                                    <div class="md-form">
+                                        <input type="email" class="form-control" id="formSignUpEmail" name="formSignUpEmail" placeholder="*Email" [(ngModel)]="user.email" #sEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+                                        <p *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="w-100 alert alert-danger">
+                                            <span *ngIf="sEmail.errors.required || sEmail.errors.pristine">Email is required</span>
+                                            <span *ngIf="sEmail.errors.pattern">Email is not in correct format</span>
+                                        </p>
+                                    </div>
+                                    <div class="md-form" [ngClass]="{ 'has-error': sf.submitted && !sPassword.valid }">
+                                        <input type="password" class="form-control" id="formSignUpPassword" name="formSignUpPassword" placeholder="*Password" [(ngModel)]="user.password" #sPassword="ngModel" minlength="8" required>
+                                        <p *ngIf="sPassword.invalid && (sPassword.dirty || sPassword.touched)" class="w-100 alert alert-danger">
+                                            <span *ngIf="sPassword.errors.required">Password is required</span>
+                                            <span *ngIf="sPassword.errors.minlength">Password should be more than 8 character</span>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex"><button type="submit" class="btn btn-success ml-auto">Sign me up!</button></div>
+                                    <img *ngIf="signupLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="MenuPadding">
+    </div>
+    <router-outlet></router-outlet>
+    <hr class="featurette-divider">
+    <footer class="container">
+        <p>© 2017 Full Stack Company, Inc..</p>
+    </footer>
+    <div id="snackbar"></div>
+</main>

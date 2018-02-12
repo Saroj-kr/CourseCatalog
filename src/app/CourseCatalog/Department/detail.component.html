@@ -1,0 +1,322 @@
+<div *ngIf="fieldIsErrorPage == false;then success else error">
+</div>
+<ng-template #success>
+    <div class="container-fluid z-depth-1 pt-5" id="DetailHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4 pl-5">
+                <img id="DetailHeaderImg" src="{{ DetailedObject.imageURL }}" class="img-thumbnail" alt="{{ DetailedObject.title }}">
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8 text-right pr-5">
+                <div class="d-flex flex-column align-items-end h-100">
+                    <div class="p2 my-auto">
+                        <p class="h3 display-3">{{ DetailedObject.title }}</p>
+                        <p class="small" *ngIf="ViewType == 'Course'">Credit Points: <strong>{{DetailedObject.credits}}</strong></p>
+                        <p class="small text-muted">Date Created: {{ DetailedObject.dateCreated }}</p>
+                    </div>
+                    <div class=" mt-auto p2">
+                        <a *ngIf="ViewType == 'Department' && UserIsAdmin==true" class="btn btn-outline-primary" data-toggle="modal" data-target="#AddCourseModal">
+                            <i class="fa fa-plus-square"></i><span>&nbsp;&nbsp;Course</span>
+                        </a>
+                        <a  *ngIf="ViewType == 'Department' && userLoggedIn && !DetailedObject.isRegistered" class="btn btn-outline-success" (click)='onRegisterClick()'><i class="fa fa-bolt"></i><span>&nbsp;&nbsp;Register All Courses</span></a>
+                        <a  *ngIf="ViewType == 'Course' && userLoggedIn && !DetailedObject.isRegistered" class="btn btn-outline-info" (click)='RegisterIn()'><i class="fa fa-check" ></i>&nbsp;&nbsp;Register</a>
+                        <div *ngIf="userLoggedIn && DetailedObject.isRegistered && !DetailedObject.completed" class="btn-group">
+                            <button type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-check"></i>&nbsp;&nbsp;Registered
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right w-100 text-justify">
+                                <a class="dropdown-item btn bg-white text-dark px-2 mx-1 bg-success" (click)="onCompletedClick()" ><i class="far fa-check-square"></i>&nbsp;&nbsp;&nbsp;Mark Completed</a>
+                                <a class="dropdown-item btn bg-white text-dark px-2 mx-1 bg-danger" (click)="onUnRegisterClick()" ><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;UnRegister</a>
+                            </div>
+                        </div>
+                        <button *ngIf="userLoggedIn && DetailedObject.isRegistered && DetailedObject.completed == true" class="btn btn-outline-success" href="javascript:void(0)" [disabled]="DetailedObject.status == 'completed'" type="button"><i class="far fa-check-square"></i>&nbsp;&nbsp;Completed</button>
+                        <a  *ngIf="userLoggedIn && UserIsAdmin==true" class="btn btn-outline-danger" (click)='onDeleteClick()'><i class="fa fa-trash"></i><span>&nbsp;&nbsp;Delete</span></a>
+                    </div>
+                    <div *ngIf="ViewType == 'Department'" class="modal fade" id="AddCourseModal" tabindex="-1" role="dialog" aria-labelledby="CourseModal" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document" style="top: 1%; margin: 0 auto;">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form name="frmNewCourse" (ngSubmit)="cf.form.valid && onAddCourse(cf)" #cf="ngForm" class="col-sm-12">
+                                        <div class="d-flex flex-column">
+                                            <div class="p2 ml-auto">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <small *ngIf='ResponseErr' class="row" class="alert alert-danger">
+                                                <strong>ResponseErr</strong>
+                                            </small>
+                                            <div class="row">
+                                                <div class="p2 mx-auto">
+                                                    <img src="{{newCourse.imageURL}}" style="width:200px;height:200px" class="m-2 img-thumbnail">
+                                                    <div class="p2 input-group">
+                                                        <div class="custom-file">
+                                                            <input type="file" name="objImage" id="objImage" class="custom-file-input">
+                                                            <label class="custom-file-label" for="objImage">{{UploadedFile}}</label>
+                                                        </div>
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-sm btn-outline-secondary" (click)="uploadImageEdit()" type="button">Upload</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="file" accept="image/*" class="custom-file-input" id="courseImg">
+                                            </div>
+                                            <div class="p2">
+                                                <input type="text" class="form-control" name="courseTitle" id="courseTitle" placeholder="Title" [(ngModel)]="newCourse.title" #title="ngModel" minlength="3" maxlength="30" required>
+                                                <p *ngIf="!title.valid && (title.dirty || title.touched)" class=" small w-100 text-danger">
+                                                    <span *ngIf="title.errors.required">Course title is required</span>
+                                                    <span *ngIf="title.errors.minlength">Course title cannot be less than 3 characters</span>
+                                                    <span *ngIf="title.errors.maxlength">Course title too large, try to place in abbreviation for same</span>
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="p2 col-sm-10">
+                                                    <input type="text" class="form-control" name="courseDesc" id="courseDesc" placeholder="Description" [(ngModel)]="newCourse.description" minlength="15" maxlength="50" #description="ngModel" required>
+                                                    <p *ngIf="!description.valid && (description.dirty || description.touched)" class=" small w-100 text-danger">
+                                                        <span *ngIf="description.errors.required">Description is required</span>
+                                                        <span *ngIf="description.errors.minlength">Description cannot be less than 15 characters</span>
+                                                        <span *ngIf="description.errors.maxlength">Description too large, try to place in detail instead</span>
+                                                    </p>
+                                                </div>
+                                                <div class="p2 col-sm-2 ml-auto">
+                                                    <input type="number" class="form-control" min="1" max="{{ AvailableCredit }}" name="courseCredit"  id="courseCredit" placeholder="Credit" [(ngModel)]="newCourse.credits" #credits="ngModel" required>
+                                                    <p *ngIf="!credits.valid && (credits.dirty || credits.touched)" class=" small w-100 text-danger">
+                                                        <span *ngIf="credits.errors.required">Credit point is required</span>
+                                                        <span *ngIf="credits.errors.minlength">Credit point cannot be less than 1</span>
+                                                        <span *ngIf="credits.errors.maxlength">Credit point is interfering with other courses</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="p2">
+                                                <textarea class="form-control" id="courseDetail" minlength="5" maxlength="200" placeholder="Details about the course" rows="3" [(ngModel)]="newCourse.detail" #detail="ngModel" ></textarea>
+                                                <p *ngIf="!detail.valid && (detail.dirty || detail.touched)" class=" small w-100 text-danger">
+                                                        <span *ngIf="detail.errors.minlength">Detail cannot be less than 1</span>
+                                                        <span *ngIf="detail.errors.maxlength">Credit point is interfering with other courses</span>
+                                                    </p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex row">
+                                            <div class="ml-auto">
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav nav-pills justify-content-center"  id="pills-tab" role="tablist">
+            <a class="nav-link active mx-2 px-4" id="About-tab" data-toggle="tab" href="#About" role="tab" aria-controls="About" aria-selected="true"><strong>About</strong></a>
+            <a *ngIf="ViewType == 'Department'" class="nav-link mx-2 px-4" id="Courses-tab" data-toggle="tab" href="#Courses" role="tab" aria-controls="Courses" aria-selected="false"><strong>Courses&nbsp;<span class="badge badge-info ml-auto my-auto">{{NoOfCourses}}</span></strong></a>
+            <a *ngIf="UserIsAdmin == true" class="nav-link mx-2 px-4" id="EditObj-tab" data-toggle="tab" href="#EditObj" role="tab" aria-controls="EditObj" aria-selected="false"><strong>Edit</strong></a>
+        </nav>
+    </div>
+    <section class="section mb-5 mt-3">
+        <div class="container tab-content">
+            <div class="tab-pane fade show active" id="About" role="tabpanel" aria-labelledby="About-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="card pageWideCard">
+                            <div class="card-body">
+                                <h4 class="card-title p2">About</h4>
+                                <hr />
+                                <p class="card-text">{{ DetailedObject.description }}</p>
+                                <p class="card-text">{{ DetailedObject.detail }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="ViewType == 'Department' && userLoggedIn" class="row pt-3 px-0">
+                        <div class="card-deck w-100 px-0 mx-0">
+                            <div class="card col-md-6 col-lg-6 ml-0">
+                                <div class="card-header row">
+                                    <h4 class="card-title my-auto col-md-8">Registration Trend</h4>
+                                    <select class="custom-select ml-auto col-md-4" id="inputGroupSelect02" (change)="onChange($event.target.value)">
+                                        <option disabled selected value>Chart Type</option>
+                                        <option value="polarArea">Polar Area</option>
+                                        <option value="pie">Pie</option>
+                                        <option value="doughnut">Doughnut</option>
+                                    </select>
+                                </div>
+                                <div class="card-body">
+                                    <canvas *ngIf="ChartData.length > 0" baseChart
+                                        [data]="ChartData"
+                                        [labels]="ChartLabels"
+                                        [legend]="ChartLegend"
+                                        [chartType]="chartType"></canvas>
+                                    <div *ngIf="ChartData.length == 0"><p>Be the first one to register in department<br /><strong *ngIf="Courses.length > 0">Find suitable course in Courses tab</strong></p></div>
+                                </div>
+                            </div>
+                            <div class="card col-md-6 col-lg-6 mr-0">
+                                <div class="card-header row">
+                                    <h4 class="card-title my-0">Registered Courses</h4>
+                                    <span class="badge badge-dark ml-auto my-auto">{{registeredCourses.length}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <p *ngIf='!registeredCourses.length'>You Haven't registered in any course yet..... <br/> <span><strong>Start registering Now !!</strong></span></p>
+                                    <div *ngIf='registeredCourses.length' class="list-group" style="overflow-y: auto;">
+                                        <div *ngFor='let course of registeredCourses' class="list-group-item list-group-item-action px-3 py-2" >
+                                            <div class="px-4 py-1 row">
+                                                <a routerLink='{{course.courseId}}'><h4 class="card-title m-0">{{course.title}}</h4></a>
+                                                <span class="badge badge-info ml-auto my-auto">{{course.credit}}</span> </div>
+                                            <div class="px-4 py-1 row">
+                                                <span class="small text-muted">Started on: {{course.dateRegistered}}</span>
+                                                <span *ngIf="course.completed" class="ml-auto text-dark">Completed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf='ViewType == "Department" && popularCourses.length' class="row pt-3">
+                        <div class="card pageWideCard">
+                            <div class="card-body">
+                                <h4 class="card-title">Popular Courses</h4>
+                                <hr />
+                                <div class="row" style="overflow-x: auto">
+                                    <div class="card-deck flex-nowrap" id="featuredCourses">
+                                        <div *ngFor='let course of popularCourses | CourseFilter: courseFilter' class="card p2" title="{{ course.title }}, {{ course.description }}">
+                                            <img class="card-img-top" src="{{ course.imageURL }}" alt="{{ course.title }}">
+                                            <div class="card-block px-2">
+                                                <a routerLink="{{course.id}}">
+                                                    <h4 class="card-title">{{ course.title }}</h4>
+                                                    <p class="card-subtitle text-muted">{{ course.description }}</p>
+                                                </a>
+                                            </div>
+                                            <span *ngIf="isUserLoggedIn() && course.isRegistered && course.completed == 1" class="badge badge-success"><i class="far fa-check-square"></i>&nbsp;&nbsp;Completed</span>
+                                            <span *ngIf="isUserLoggedIn() && course.isRegistered && !course.completed" class="badge badge-info"><i class="fa fa-check"></i>&nbsp;&nbsp;Registered</span>
+                                            <div class="card-footer bg-transparent p-0">
+                                                <a *ngIf='isUserLoggedIn() && !course.isRegistered' (click)='onRegisterClick(course.id)' class="btn btn-primary w-100 m-auto py-2">Register</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="ViewType == 'Department'" class="tab-pane fade show" id="Courses" role="tabpanel" aria-labelledby="Courses-tab">
+                <div *ngIf='Courses.length' class="container" id="AllCourses">
+                    <div class="row">
+                        <input class="form-control form-control-lg text-muted" type="text" name="txtSearchCourse" id="txtSearchCourse" placeholder="Search Course" [(ngModel)]='courseFilter'>
+                    </div>
+                    <div class="row">
+                        <div class="card-deck">
+                            <div *ngFor='let course of Courses | CourseFilter: courseFilter' class="card" title="{{ course.title }}, {{ course.description }}">
+                                <img class="card-img-top"  src="{{ course.imageURL }}" alt="{{ course.title }}">
+                                <div class="card-block px-2">
+                                    <a routerLink="{{course.id}}">
+                                        <h4 class="card-title">{{ course.title }}</h4>
+                                        <p class="card-subtitle text-muted">{{ course.description }}</p>
+                                    </a>
+                                </div>
+                                <span *ngIf="isUserLoggedIn() && course.isRegistered && course.completed == 1" class="badge badge-success"><i class="fa fa-check-square"></i>&nbsp;&nbsp;Completed</span>
+                                <span *ngIf="isUserLoggedIn() && course.isRegistered && !course.completed" class="badge badge-info"><i class="fa fa-check"></i>&nbsp;&nbsp;Registered</span>
+                                <div *ngIf='isUserLoggedIn()' class="card-footer bg-transparent p-0">
+                                    <a *ngIf='!course.isRegistered' (click)="onRegisterClick(course.id)" class="btn btn-primary w-100 m-auto py-2">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf='!Courses.length' class="container">
+                    <div class="row w-100">
+                        <div class="card pageWideCard">
+                            <div class="card-body">
+                                <h4 class="card-title">No Courses Yet !!</h4>
+                                <hr />
+                                <p class="card-text">There are no Courses in this department or courses are getting loaded !! Stay patient...</p>
+                                <p class="card-text"><strong>Horrayy !!</strong> no need to study</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="EditObj" role="tabpanel" aria-labelledby="EditObj-tab">
+                <div class="card pageWideCard">
+                    <div class="card-body">
+                        <form name="frmDetailedObject" (ngSubmit)="df.form.valid && onUpdateObject(df)" #df="ngForm" class="col-sm-12">
+                            <div class="d-flex">
+                                <h4 class="card-title p2 my-auto">Edit Detail</h4>
+                                <button type="submit" class="ml-auto btn btn-primary my-0">Save</button>
+                            </div>
+                            <hr />
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="d-flex flex-column">
+                                            <img class="p2 img-thumbnail mx-auto" src="{{ DetailedObject.imageURL }}" style="max-width: 250px; max-height: 250px; min-width: 200px; min-height: 200px;">
+                                            <div class="p2 input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" name="objImageEdit" id="objImageEdit" class="custom-file-input">
+                                                    <label class="custom-file-label" for="objImageEdit">{{UploadedFileEdit}}</label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-sm btn-outline-secondary" (click)="uploadImageEdit()" type="button">Upload</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" name="DetailedObjectTitle" id="DetailedObjectTitle" placeholder="Title" [(ngModel)]="DetailedObject.title" minlength="3" maxlength="30" #objTitle="ngModel" value="{{ DetailedObject.title }}" required>
+                                        <p *ngIf="!objTitle.valid && (objTitle.dirty || objTitle.touched)" class=" small w-100 text-danger">{{ViewType}}
+                                            <span *ngIf="objTitle.errors.required">title is required</span>
+                                            <span *ngIf="objTitle.errors.minlength">title cannot be less than 3 characters</span>
+                                            <span *ngIf="objTitle.errors.maxlength">title too large, try to place in abbreviation for same</span>
+                                        </p>
+                                        <div class="row mx-0">
+                                            <div class="px-0" [ngClass]="{'col-md-10':ViewType == 'Course' && !DetailedObject.isRegistered, 'w-100':DetailedObject.isRegistered}">
+                                                <input type="text" class="form-control" name="DetailedObjectdescription" id="DetailedObjectdescription" placeholder="Description" [(ngModel)]="DetailedObject.description" minlength="15" maxlength="100" #objDescription="ngModel" value="{{ DetailedObject.description }}" required>
+                                                <p *ngIf="!objDescription.valid && (objDescription.dirty || objDescription.touched)" class=" small w-100 text-danger">{{ViewType}}
+                                                    <span *ngIf="objDescription.errors.required">description is required</span>
+                                                    <span *ngIf="objDescription.errors.minlength">description cannot be less than 5 characters</span>
+                                                    <span *ngIf="objDescription.errors.maxlength">description too large, try to place in abbreviation for same</span>
+                                                </p>
+                                            </div>
+                                            <div class="pr-0" *ngIf="!DetailedObject.isRegistered && ViewType == 'Course'" [ngClass]="{'col-md-2':ViewType == 'Course'}">
+                                                <input type="number" class="form-control" min="1" name="objCredit"  id="objCredit" placeholder="Credit" [(ngModel)]="DetailedObject.credits" #objCredits="ngModel" style="max-width: max-content" required>
+                                                <p *ngIf="!objCredits.valid && (objCredits.dirty || objCredits.touched)" class=" small text-danger">
+                                                    <span *ngIf="objCredits.errors.required">Credit point is required</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <textarea class="form-control card-text" name="DetailedObjectDetail" id="DetailedObjectDetail" placeholder="Detail" [(ngModel)]="DetailedObject.detail" rows="4" minlength="15" #objDetail="ngModel">{{ DetailedObject.detail }}</textarea>
+                                        <p *ngIf="!objDetail.valid && (objDetail.dirty || objDetail.touched)" class=" small w-100 text-danger">{{ViewType}}
+                                            <span *ngIf="objDetail.errors.minlength">detail cannot be less than 5 characters</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-template>
+<ng-template #error>
+    <div *ngIf="ViewType == 'Department' || ViewType == 'Course';then valueError  else pageError">
+    </div>
+</ng-template>
+<ng-template #valueError>
+    <div *ngIf="ViewType == 'Department' && !fieldDepartmentSuccess">
+        <h1>Error 404 : Page Not Found</h1>
+        <h2>Maybe you are following a wrong department Id, or the Department has been deleted</h2>
+        <p>To browse back to Home Page, please click the
+            <a [routerLink]="HomeLink">link</a>
+        </p>
+    </div>
+    <div *ngIf="ViewType == 'Course' && !fieldCourseSuccess">
+        <h1>Error 404 : Page Not Found</h1>
+        <h2>You are following an incorrect Link, Either the Course or Department has been deleted</h2>
+        <p>To browse back to Home Page, please click the
+            <a [routerLink]="HomeLink">link</a>
+        </p>
+    </div>
+</ng-template>
+<ng-template #pageError>
+    <h1>Error 404 : Page Not Found</h1>
+</ng-template>

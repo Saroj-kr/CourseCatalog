@@ -1,0 +1,298 @@
+<div class="container mt-2 pt-3">
+    <!-- <div class="nav special-color justify-content-end w-100" style="position: fixed; top:75px; z-index: 100;" id="UsrNavbar">
+        <div class="p2 mx-auto text-center nav-link" style="min-height:40vh">
+            <img id="usrNavImg" src="{{userDetail.imageURL}}" alt="User Image">
+            <p class="mt-2">{{userDetail.name}}</p>
+        </div>
+        <a [ngClass]="{active:ActivatedURL == 'dashboard'}" class="nav-link" title="Dashboard" href="/user/dashboard">
+            <i class="far fa-chart-bar feather" style="width:25px"></i>
+            <span class="mb-1">Dashboard</span>
+        </a>
+        <a [ngClass]="{active:ActivatedURL == 'adminMgmt'}" *ngIf='userDetail.admin' class="nav-link" title="Admin Mgmt" href="/user/adminMgmt">
+            <i class="fa fa-users feather" style="width:25px"></i>
+            <span class="mb-1">Admin Mgmt</span>
+        </a>
+        <a [ngClass]="{active:ActivatedURL == 'profile'}" class="nav-link" title="Profile" href="/user/profile">
+            <i class="fas fa-address-card feather" style="width:25px"></i>
+            <span class="mb-1">Profile</span>
+        </a>
+        <a [ngClass]="{active:ActivatedURL == 'history'}" class="nav-link" title="History" href="/user/history">
+            <i class="fa fa-history feather" style="width:25px"></i>
+            <span class="mb-1">History</span>
+        </a>
+    </div>
+    <div class="row">
+        <div class="container"> -->
+        <router-outlet></router-outlet>
+        <!-- <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <div class="row" id="usrContent">
+                    <div id="usrQuickView" class="card-deck mx-auto" style="margin-top: -20px;">
+                        <div class="card mx-4" >
+                            <div class="card-body px-1 pt-0" [ngClass]="{'text-success':registeredCourseCount!=0}">
+                                <p class="mb-0"><span class="h1 display-2">{{registeredCourseCount}}</span></p><span class="blockquote-footer text-dark font-weight-bold" >Registered Courses</span>
+                            </div>
+                        </div>
+                        <div class="card mx-4">
+                            <div class="card-body px-1 pt-0" [ngClass]="{'text-success':CoursesCompleted==registeredCourseCount, 'text-danger':CoursesCompleted==0, 'text-warning':CoursesCompleted!=0 && CoursesCompleted<registeredCourseCount }">
+                                <p class="mb-0"><span class="h1 display-2">{{CoursesCompleted}}</span>out of {{registeredCourseCount}}</p><span class="blockquote-footer text-dark font-weight-bold">Course Completed</span>
+                            </div>
+                        </div>
+                        <div class="card mx-4" [ngClass]="{'text-success':CreditEarned==CreditTotal, 'text-danger':CreditEarned==0, 'text-warning':CreditEarned!=0 && CoursesCompleted<CreditTotal }">
+                            <div class="card-body px-1 pt-0">
+                                <p class="mb-0"><span class="h1 display-2">{{CreditEarned}}</span>out of {{CreditTotal}}</p><span class="blockquote-footer text-dark font-weight-bold">Credit Earned</span>
+                            </div>
+                        </div>
+                        <div class="card mx-4">
+                            <div class="card-body px-1 pt-0 text-info">
+                                <p class="mb-0"><span class="h1 display-2">0</span></p><span class="blockquote-footer text-dark font-weight-bold">Notification</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="card w-100">
+                            <div class="card-header py-2 row mx-0 bg-transparent" >
+                                <div class="d-flex w-100">
+                                    <div class="p2 my-auto">
+                                        <h4 class="mb-0"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;Registeration Trend</h4>
+                                    </div>
+                                    <div class="p2 my-auto ml-auto">
+                                        <i class="far fa-calendar-alt"></i>&nbsp;&nbsp;
+                                        <select class="custom-select" (change)="onChangeRTPeriod($event.target.value)" style="max-width: max-content;">
+                                            <option disabled>Time Period</option>
+                                            <option selected value="Day">Current Month</option>
+                                            <option value="Month">Current Year</option>
+                                            <option value="Year">Last 10 year</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body container pt-3">
+                                <div class="row" style="height: 200px;">
+                                    <canvas *ngIf='RegTrendGrphData.length == 2' baseChart
+                                        [datasets]="RegTrendGrphData"
+                                        [labels]="RegTrendGraphLabel"
+                                        [options]="RegTrendGraphOption"
+                                        [chartType]="RegTrendGraphType" >
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="card-deck w-100">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header py-2 row mx-0 bg-transparent" >
+                                        <h4 class="mb-0 my-auto"><i class="fas fa-chart-pie"></i>&nbsp;&nbsp;Top Courses</h4>
+                                        <select (change)="onChangeTCChartType($event.target.value)" class="custom-select ml-auto" style="max-width: max-content;">
+                                            <option selected disabled value>Chart Type</option>
+                                            <option value="polarArea">Polar Area</option>
+                                            <option value="pie">Pie</option>
+                                            <option value="doughnut">Doughnut</option>
+                                        </select>
+                                        <select (change)="onChangeTCDepartment($event.target.value)" class="custom-select ml-auto" style="max-width: max-content;">
+                                                <option selected value="Overall">Overall</option>
+                                                <option *ngFor='let department of departments' value="{{department.title}}">{{department.title}}</option>
+                                            </select>
+                                </div>
+                                <div class="card-body">
+                                    <canvas *ngIf='TCChartLabels.length > 0' baseChart
+                                        [data]="TCChartData"    
+                                        [labels]="TCChartLabels"
+                                        [legend]="TCChartLegend"
+                                        [chartType]="TCChartType"
+                                        [options]="TCChartOption"></canvas>
+                                    <p *ngIf="TCChartReady && TCChartData.length == 0">No Data to displayed</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 pr-0 mr-0">
+                            <div class="card mr-0 h-100">
+                                <img src="../../assets/images/profileBanner.gif" alt="card-img-top" style="height: 150px; ">
+                                <div class="card-body text-center">
+                                    <img class="mx-auto" src="{{userDetail.imageURL}}" alt="card-img-top" style="height: 150px; width: 150px; border-radius: 100%; border: 1px solid; margin-top: -30%;">
+                                    <p class="h5">{{userDetail.name}}</p>
+                                    <p class="h5 text-muted">Email : {{userDetail.email}}</p>
+                                    <p class="h5 text-muted">Joined on : {{userDetail.dob}}</p>
+                                    <p class="h5 text-muted">Mobile : {{userDetail.mobile}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade px-3" id="v-pills-AdminMgmt" role="tabpanel" aria-labelledby="v-pills-AdminMgmt-tab">
+                <div class="card bg-transparent" style="box-shadow: none;">
+                    <div class="card-body">
+                        <h5><i class="fas fa-user-plus"></i>&nbsp;&nbsp;Admin Management</h5>
+                        <hr />
+                        <table *ngIf='AllUsers && AllUsers.length' class="table table-striped table-hover">
+                            <thead class="blue-grey lighten-4">
+                                <tr>
+                                    <th><input type="text" placeholder="Name" [(ngModel)]="nameSearch"></th>
+                                    <th><input type="text" placeholder="Email" [(ngModel)]="emailSearch"></th>
+                                    <th>Admin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor='let user of AllUsers | UserFilter: nameSearch:emailSearch'>
+                                    <td class="text-dark">{{user.name}}</td>
+                                    <td class="text-dark">{{user.email}}</td>
+                                    <td class="py-2 text-dark">
+                                        <select class="custom-select my-auto" (change)="AdminSelectChange(user.id, user.name, $event.target.value)" style="max-width: max-content" [(ngModel)]='user.admin'>
+                                            <option value="true">True</option> 
+                                            <option value="false">False</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-history" role="tabpanel" aria-labelledby="v-pills-history-tab">
+                <div class="container">
+                    <div class="card" style="max-width:100%">
+                        <div class="card-header">
+                            <div class="px-3 d-flex justify-content-around">
+                                <p class="h5 my-auto" style="min-width: fit-content">Your Registered Courses</p>
+                                <div class="ml-auto my-auto" style="min-width: fit-content">
+                                    <input type="checkbox" value="GroupByDepartment"> Group by department
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" placeholder="Search" title="Type to search among registered courses" [(ngModel)]='courseFilter'>
+                            <div class="card-deck mt-4">
+                                <div *ngFor='let course of registeredCourses | CourseFilter: courseFilter' class="card courseCard" title="{{ course.title }}, {{ course.description }}">
+                                    <img class="card-img-top"  src="{{ course.imageURL }}" alt="{{ course.title }}">
+                                    <div class="card-block px-2">
+                                        <a href="departments/{{course.departmentId}}/{{course.courseId}}">
+                                            <h4 class="card-title mb-1">{{ course.title }}</h4>
+                                            <p class="card-subtitle text-muted">{{ course.description }}</p>
+                                            <p class="small text-muted">Date Registered: {{ course.dateRegistered }}</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                <div class="card bg-transparent" style="box-shadow: none;">
+                    <div class="card-body">
+                        <form name='updateUser' (ngSubmit)="uf.form.valid && onUpdateUser(uf)" #uf="ngForm" novalidate>
+                            <div class="px-3 row">
+                                <h2 class="mb-0 my-auto"><i class="fas fa-id-badge"></i>&nbsp;&nbsp;About</h2>
+                                <div class="ml-auto">
+                                    <button *ngIf='!EditEnabled' (click)="toggleUserUpdateForm()" class="btn btn-outline-default waves-effect btn-sm m-0"><i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;&nbsp;Edit</button>
+                                    <button type="submit" *ngIf='EditEnabled' (disabled)='uf.form.valid' class="btn btn-outline-info waves-effect btn-sm m-0"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;Save</button>
+                                    <button *ngIf='EditEnabled' (click)="toggleUserUpdateForm()" class="btn btn-outline-danger waves-effect btn-sm m-0"><i class="fa fa-window-close" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Cancel</button>
+                                </div>
+                            </div>
+                            <hr class="mt-2 mb-3" />                            
+                            <fieldset id="usrFrmFieldset" class="disabled" disabled>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row pr-3 ">
+                                            <img src="{{userDetail.imageURL}}" alt="..." class="img-thumbnail col w-100">
+                                        </div>
+                                        <div class="row pr-3 mt-3">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="customFile">
+                                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <div class="row pr-3 mt-3">
+                                            <div class="card w-100">
+                                                <div class="card-header">
+                                                    Basic Information
+                                                </div>
+                                                <div class="card-body">
+                                                    <input class="form-control" type="text" name="frmName" id="frmName" placeholder="Name" class="form-control" value="{{userDetail.name}}" [(ngModel)]="userDetail.name" minlength="3" maxlength="50" pattern="[a-zA-Z ]+" #usrName="ngModel" >
+                                                    <p *ngIf="!usrName.valid && (usrName.dirty || usrName.touched)" class=" small w-100 text-danger">
+                                                        <span *ngIf="usrName.errors.required">Name cannot be empty</span>
+                                                        <span *ngIf="usrName.errors.minlength">Name cannot be less than 3 characters</span>
+                                                        <span *ngIf="usrName.errors.maxlength">Name is too large, try to place in abbreviation for same</span>
+                                                        <span *ngIf="usrName.errors.pattern">Name can contain only characters</span>
+                                                    </p>
+                                                    <select name="frmGender" class="custom-select" (change)="onGenderChange($event.target.value)" style="height: 2.5rem" [(ngModel)]="userDetail.gender" #usrGender="ngModel">
+                                                        <option disabled value selected>Gender</option>
+                                                        <option value="1">Female</option> 
+                                                        <option value="0">Male</option>
+                                                    </select>
+                                                    <input class="form-control" type="text" id="frmJoinedOn" placeholder="Joined on" class="form-control" value="{{userDetail.dob}}" readonly> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="pb-0">Contact Information</h4>
+                                                <hr  class="mt-2 mb-3" />
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <label>Address</label>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <textarea class="form-control" name="frmAddress" placeholder="Address" cols="3" [(ngModel)]="userDetail.address">{{userDetail.address}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <label>Mobile</label>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="frmMobile" placeholder="Mobile number (XXXXXXXXXX)" pattern="^[0-9]{10}$" value="{{userDetail.mobile}}" [(ngModel)]="userDetail.mobile" #usrMobile="ngModel" >
+                                                            <p *ngIf="!usrMobile.valid && (usrMobile.dirty || usrMobile.touched)" class=" small w-100 text-danger">
+                                                                <span *ngIf="usrMobile.errors.pattern">Enter your 10 digit mobile number in pattern XXXXXXXXXX</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card mt-3">
+                                            <div class="card-body">
+                                                <h4 class="pb-0">Account Information</h4>
+                                                <hr  class="mt-2 mb-3" />
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <label class="my-auto">Email</label>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <input class="form-control" type="text" placeholder="Email" value="{{userDetail.email}}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <label class="my-auto">Password</label>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <input class="form-control" type="password" name="frmPassword" placeholder="Password" value="{{userDetail.password}}" pattern="^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$" [(ngModel)]="userDetail.password" #usrPassword="ngModel" required>
+                                                        <p *ngIf="!usrPassword.valid && (usrPassword.dirty || usrPassword.touched)" class=" small w-100 text-danger">
+                                                            <span *ngIf="usrPassword.errors.required">Password cannot be empty</span>
+                                                            <span *ngIf="usrPassword.errors.pattern"> Password Must Contain more than 6 character, atleast 1-char and 1-number</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div> -->
+</div>

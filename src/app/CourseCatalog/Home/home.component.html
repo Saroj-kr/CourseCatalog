@@ -1,0 +1,136 @@
+<section class="text-center">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators"  *ngFor='let carouselItem of carouselItems'  data-slide-to="carouselItem.sequenceNo" class="carouselItem.status"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div *ngFor='let carouselItem of carouselItems' class="carousel-item {{ carouselItem.status }}">
+                <img class="d-block w-100" src="{{ carouselItem.imageURL }}" alt="{{ carouselItem.title }}">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="display-4">{{ carouselItem.title }}</h1>
+                    <h4>{{ carouselItem.description }}</h4>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+<!-- <section class="section feature-box px-4 py-3 default-color-dark">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-lg-10" id="srchHome">
+                <div class="input-group">
+                    <select class="form-control" id="departmentSelect">
+                        <option style="background: transparent;">Department</option>
+                        <option *ngFor='let department of departments' title="{{ department.description }}">{{ department.name }}</option>
+                    </select>
+                    <input type="text" id="srchHomeInput" class="form-control mr-2 rounded-right" placeholder="Search Course" aria-label="Search Course">
+                    <button id ="srchHomeBtn" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</section> -->
+<section class="section feature-box px-5 py-4 white-text special-color">
+    <h1 class="section-heading display-3 text-center">Course Catalog</h1>
+    <p class="section-description lead text-center px-3">Browse through our wide list of courses which is specially designed to help you learn at your own pace</p>
+    <div class="row features-small py-5">
+        <div class="col-md-5 mb-r">
+            <div class="col-1 col-md-2 float-left">
+                <i class="fa fa-bullhorn"></i>
+            </div>
+            <div class="col-10 col-md-9 col-lg-10 float-right">
+                <h4 class="feature-title">Departments</h4>
+                <p class="grey-text">Let me browse throgh the departments to find myself a course</p>
+                <a class="btn btn-primary btn-sm ml-0 waves-effect waves-light" (click)="gotoPage('Department')">View</a>
+            </div>
+        </div>
+        <div class="col-md-1 mb-r"></div>
+        <div class="col-md-1 mb-r" style="border-left:1px solid;"></div>
+        <div class="col-md-5 mb-r">
+            <div class="col-1 col-md-2 float-left">
+                <i class="fa fa-cogs"></i>
+            </div>
+            <div class="col-10 col-md-9 col-lg-10 float-right">
+                <h4 class="feature-title">Courses</h4>
+                <p class="grey-text">Take me straight to the courses</p>
+                <a class="btn btn-pink btn-sm ml-0 waves-effect waves-light" (click)="gotoPage('Course')">View</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section feature-box pt-3 px-1">
+    <div class="container-fluid mt-3 py-5 px-0" style="background-color: white;">
+        <div class="d-flex flex-row-reverse">
+            <div class="col-md-3 featureInfo">
+                <div class="d-flex flex-column h-100 ">
+                    <div class="p2">
+                        <p class=" h1 display-4 p2" style="overflow-wrap: break-word;">Featured Department</p> 
+                    </div>
+                    <div class="my-auto p-2">
+                            <input class="form-control form-control-lg text-muted" type="text" name="txtSearchDepartment" id="txtSearchDepartment" placeholder="Search Department" [(ngModel)]='departmentFilter'>
+                    </div>
+                    <div class="mt-auto p-2">
+                        <button type="button" class="btn btn-outline-info" (click)="gotoPage('Department')">View All >></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 py-2" style="overflow-x:scroll;">
+                <div class="card-deck flex-nowrap pr-3">
+                    <div *ngFor='let department of departments | DepartmentFilter: departmentFilter' class="card" title="{{ department.title }}, {{ department.description }}">
+                        <img class="card-img-top" src="{{ department.imageURL }}" alt="{{ department.title }}">
+                        <div class="card-block p-2">
+                            <a routerLink="departments/{{ department.id }}">
+                                <h4 class="card-title">{{ department.title }}</h4>
+                                <p class="card-subtitle mb-2 text-muted">{{ department.description }}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="container-fluid mt-3 px-0 py-5" style="background-color: white;">
+        <div class="d-flex flex-row-reverse">
+            <div class="col-md-3 featureInfo">
+                <div class="d-flex flex-column h-100 ">
+                    <div class="p2">
+                        <p class=" h1 display-4">Featured Courses</p> 
+                    </div>
+                    <div class="my-auto p-2">
+                        <input class="form-control form-control-lg text-muted" type="text" name="txtSearchCourse" id="txtSearchCourse" placeholder="Search Course" [(ngModel)]='courseFilter'>
+                    </div>
+                    <div class="mt-auto p-2">
+                        <button type="button" class="btn btn-outline-info" (click)="gotoPage('Course')">View All >></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 py-2" style="overflow-x:scroll;">
+                <div class="card-deck flex-nowrap pr-3">
+                    <div *ngFor='let course of courses | CourseFilter: courseFilter' class="card" title="{{ course.title }}, {{ course.description }}">
+                        <img class="card-img-top" src="{{ course.imageURL }}" alt="{{ course.title }}">
+                        <div class="card-block px-2">
+                            <a routerLink="course/{{course.id}}">
+                                <h4 class="card-title">{{ course.title }}</h4>
+                                <p class="card-subtitle text-muted">{{ course.description }}</p>
+                            </a>
+                        </div>
+                        <div class="card-footer bg-transparent p-0">
+                            <a *ngIf='isUserLoggedIn()' routerLink='departments/{{course.department}}/{{course.id}}' class="btn btn-primary w-100 m-auto">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

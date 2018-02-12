@@ -1,0 +1,51 @@
+.card-block  h5,.card-block  p {
+    white-space: nowrap;
+    width: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
+}
+
+.overlayMenu {
+    transition: .5s ease;
+    position: absolute;
+    top: 0%;
+    min-width: 203px;
+    min-height: 200px;
+    background-color: rgba(56, 56, 56, 0.5);
+    opacity: 0;
+}
+
+.card .card-img-top {
+    width: inherit;
+    height: 200px;
+}
+
+.overlayMenu i {
+    color: whitesmoke;
+    border: 2px solid;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.overlayMenu a {
+    margin: 5px;
+}
+
+.card:hover .overlayMenu {
+    opacity: 0.6;
+}
+
+.card {
+    max-width: 203px;
+    min-width: 203px;
+    border-radius: 0px;
+    border: 1px solid rgb(100, 100, 100);
+    margin-bottom: 20px;
+}
+
+#bannerImg {
+    background-image: url('../../../assets/images/bannerBackground.jpg');
+    background-repeat: repeat;
+    color: whitesmoke;
+}
