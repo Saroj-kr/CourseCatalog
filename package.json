@@ -6,12 +6,16 @@
     "type": "github",
     "url": ""
   },
+  "engines": {
+    "node": "6.11.3",
+    "npm": "3.10.10"
+  }
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "postinstall": "ng build --watch"
+    "postinstall": "ng build --aot -prod"
   },
   "private": true,
   "dependencies": {
@@ -47,7 +51,8 @@
     "passport-twitter": "^1.0.3",
     "q": "^1.5.1",
     "request": "^2.58.0",
-    "rootpath": "^0.1.2"
+    "rootpath": "^0.1.2",
+    "typescript": "~2.3.3"
   },
   "devDependencies": {
     "@angular/cli": "1.4.2",
